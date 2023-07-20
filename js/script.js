@@ -2,38 +2,38 @@
 
 window.addEventListener("DOMContentLoaded", function () {
     // tab logic start
-	const tabsHeaders = document.querySelectorAll(".tabheader__item");
-	const tabsContents = document.querySelectorAll(".tabcontent");
-	const tabsHeadersParent = document.querySelector(".tabheader__items");
+    const tabsHeaders = document.querySelectorAll(".tabheader__item");
+    const tabsContents = document.querySelectorAll(".tabcontent");
+    const tabsHeadersParent = document.querySelector(".tabheader__items");
 
-	function hideTabContent() {
-		tabsContents.forEach(tabContent => {
-			tabContent.classList.add("hide");
-			tabContent.classList.remove("show", "fade");
-		});
-		tabsHeaders.forEach(tabHeader => tabHeader.classList.remove("tabheader__item_active"));
-	}
+    function hideTabContent() {
+        tabsContents.forEach(tabContent => {
+            tabContent.classList.add("hide");
+            tabContent.classList.remove("show", "fade");
+        });
+        tabsHeaders.forEach(tabHeader => tabHeader.classList.remove("tabheader__item_active"));
+    }
 
-	function showTabContent(i = 1) {
-		tabsContents[i].classList.add("show", "fade");
-		tabsContents[i].classList.remove("hide");
-		tabsHeaders[i].classList.add("tabheader__item_active");
-	}
+    function showTabContent(i = 1) {
+        tabsContents[i].classList.add("show", "fade");
+        tabsContents[i].classList.remove("hide");
+        tabsHeaders[i].classList.add("tabheader__item_active");
+    }
 
-	hideTabContent();
-	showTabContent();
+    hideTabContent();
+    showTabContent();
 
-	tabsHeadersParent.addEventListener("click", (e) => {
-		if (e.target && e.target.matches(".tabheader__item")) {
-			tabsHeaders.forEach((tabHeader, index) => {
-				if (e.target === tabHeader) {
-					hideTabContent();
-					showTabContent(index);
-				}
-			});
-		}
-	});
-	// tab logic end
+    tabsHeadersParent.addEventListener("click", (e) => {
+        if (e.target && e.target.matches(".tabheader__item")) {
+            tabsHeaders.forEach((tabHeader, index) => {
+                if (e.target === tabHeader) {
+                    hideTabContent();
+                    showTabContent(index);
+                }
+            });
+        }
+    });
+    // tab logic end
 
 
     //  timer logicn start
@@ -93,53 +93,117 @@ window.addEventListener("DOMContentLoaded", function () {
 
     // timer logic end
     // modal logic start
-const modalTrigger = document.querySelectorAll("[data-modal]");
-const modal = document.querySelector(".modal");
-const modalCloseBtn = document.querySelector("[data-close]");
+    const modalTrigger = document.querySelectorAll("[data-modal]");
+    const modal = document.querySelector(".modal");
+    const modalCloseBtn = document.querySelector("[data-close]");
 
-  modalTrigger.forEach(btn =>  btn.addEventListener("click", openModal))
+    modalTrigger.forEach(btn => btn.addEventListener("click", openModal))
 
-   modalCloseBtn.addEventListener("click", closeModal)
+    modalCloseBtn.addEventListener("click", closeModal)
 
-  modal.addEventListener("click", (e)=>{
-  if(e.target === modal) {
-    closeModal()
-  }
-  })
-  window.addEventListener("keydown", (e)=>{
-    if(e.key === "Escape" && modal.matches(".show")){
-        closeModal()
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            closeModal()
+        }
+    })
+    window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.matches(".show")) {
+            closeModal()
+        }
+    })
+
+    function openModal() {
+        modal.classList.add("show");
+        modal.classList.remove("hide");
+        document.body.style.overflow = "hidden";
+        clearTimeout(modalTimerId);
     }
-  })
+    function closeModal() {
+        modal.classList.remove("show");
+        modal.classList.add("hide");
+        this.document.body.removeAttribute("style")
+    }
 
-  function openModal(){
-    modal.classList.add("show");
-    modal.classList.remove("hide");
-    document.body.style.overflow = "hidden";
-    clearTimeout(modalTimerId);
-  }
-function closeModal(){
-    modal.classList.remove("show");
-    modal.classList.add("hide");
-    this.document.body.removeAttribute("style")
-}
+    const modalTimerId = setTimeout(openModal, 5000);
 
-const modalTimerId = setTimeout(openModal, 5000);
+    function showModalByScroll() {
+        //    if( window.scrollY >=1000){
+        //     openModal()
+        //     window.removeEventListener("scroll",  showModalByScroll) 
+        //    }
+        if (window.scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
+            openModal();
+            window.removeEventListener("scroll", showModalByScroll);
+        }
 
-function showModalByScroll(){
-//    if( window.scrollY >=1000){
-//     openModal()
-//     window.removeEventListener("scroll",  showModalByScroll) 
-//    }
-if(window.scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1){
-    openModal();
-    window.removeEventListener("scroll",  showModalByScroll) ;
-}
+    }
+    window.addEventListener("scroll", showModalByScroll)
 
-}
-window.addEventListener("scroll",  showModalByScroll) 
-    
     // modal logic end
+
+    // used Class for menu-item cards start
+ class MenuCard{
+    constructor(img,alt, title,descr,price,parentSelector){
+        this.img = img;
+        this.alt = alt;
+        this.title = title;
+        this.descr = descr;
+        this.price = price;
+        this.transfer = 27;
+        this.parent = document.querySelector(parentSelector);
+        this.changeToUAH()
+    }
+    changeToUAH(){
+        this.price = this.price * this.transfer
+    };
+
+    render() {
+        const { img, alt, title, descr, price, parent } = this;
+        const element = document.createElement("div");
+        element.classList.add("menu__item");
+        element.innerHTML = `
+            <img src=${img} alt=${alt}>
+            <h3 class="menu__item-subtitle">${title}</h3>
+            <div class="menu__item-descr">${descr}</div>
+            <div class="menu__item-divider"></div>
+            <div class="menu__item-price">
+                <div class="menu__item-cost">Цена:</div>
+                <div class="menu__item-total"><span>${price}</span> грн/день</div>
+            </div>
+        `;
+
+        parent.append(element);
+    };
+ }
+ new MenuCard(
+    "img/tabs/vegy.jpg",
+    "vegy",
+    "Меню \"Премиум\"",
+    "В меню \"Премиум\" мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
+     8.5,
+     ".menu .container",
+ ).render();
+
+
+
+    new MenuCard(
+		"img/tabs/elite.jpg",
+		"elite",
+		"Меню \"Премиум\"",
+		"В меню \"Премиум\" мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд.Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
+		20.4,
+		".menu .container"
+	).render();
+
+	new MenuCard(
+		"img/tabs/post.jpg",
+		"post",
+		"Меню \"Постное\"",
+		"В меню \"Постное\" - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.",
+		20.4,
+		".menu .container"
+	).render();
+    // used Class for menu-item cards end
 });
 
 

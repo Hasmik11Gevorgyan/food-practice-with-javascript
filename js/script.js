@@ -37,7 +37,7 @@ window.addEventListener("DOMContentLoaded", function () {
 
 
     //  timer logicn start
-    const deadline = "2023-07-17";
+    const deadline = "2023-08-17";
     function getTimeRemaining(endtime) {
         const total = Date.parse(endtime) - Date.parse(new Date());
         let days, hours, minutes, seconds;
@@ -121,7 +121,7 @@ window.addEventListener("DOMContentLoaded", function () {
     function closeModal() {
         modal.classList.remove("show");
         modal.classList.add("hide");
-        this.document.body.removeAttribute("style")
+        document.body.removeAttribute("style")
     }
 
     const modalTimerId = setTimeout(openModal, 5000);
@@ -178,32 +178,35 @@ window.addEventListener("DOMContentLoaded", function () {
  new MenuCard(
     "img/tabs/vegy.jpg",
     "vegy",
+    "Меню \"Фитнес\"",
+    "Меню \"Фитнес\" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов.Продукт активных и здоровых людей.Это абсолютно новый продукт с оптимальной ценой и высоким качеством!",
+    8.5,
+    ".menu .container"
+).render();
+
+new MenuCard(
+    "img/tabs/elite.jpg",
+    "elite",
     "Меню \"Премиум\"",
-    "В меню \"Премиум\" мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
-     8.5,
-     ".menu .container",
- ).render();
+    "В меню \"Премиум\" мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд.Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
+    20.4,
+    ".menu .container"
+).render();
 
+new MenuCard(
+    "img/tabs/post.jpg",
+    "post",
+    "Меню \"Постное\"",
+    "В меню \"Постное\" - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.",
+    20.4,
+    ".menu .container"
+).render();
 
-
-    new MenuCard(
-		"img/tabs/elite.jpg",
-		"elite",
-		"Меню \"Премиум\"",
-		"В меню \"Премиум\" мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд.Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
-		20.4,
-		".menu .container"
-	).render();
-
-	new MenuCard(
-		"img/tabs/post.jpg",
-		"post",
-		"Меню \"Постное\"",
-		"В меню \"Постное\" - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.",
-		20.4,
-		".menu .container"
-	).render();
     // used Class for menu-item cards end
+    // we create post request for forms start
+    const forms = document.querySelectorAll("form");
+    console.log(forms);
+    // we create post request for forms end
 });
 
 

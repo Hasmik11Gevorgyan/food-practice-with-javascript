@@ -142,26 +142,26 @@ window.addEventListener("DOMContentLoaded", function () {
     // modal logic end
 
     // used Class for menu-item cards start
- class MenuCard{
-    constructor(img,alt, title,descr,price,parentSelector){
-        this.img = img;
-        this.alt = alt;
-        this.title = title;
-        this.descr = descr;
-        this.price = price;
-        this.transfer = 27;
-        this.parent = document.querySelector(parentSelector);
-        this.changeToUAH()
-    }
-    changeToUAH(){
-        this.price = this.price * this.transfer
-    };
+    class MenuCard {
+        constructor(img, alt, title, descr, price, parentSelector) {
+            this.img = img;
+            this.alt = alt;
+            this.title = title;
+            this.descr = descr;
+            this.price = price;
+            this.transfer = 27;
+            this.parent = document.querySelector(parentSelector);
+            this.changeToUAH()
+        }
+        changeToUAH() {
+            this.price = this.price * this.transfer
+        };
 
-    render() {
-        const { img, alt, title, descr, price, parent } = this;
-        const element = document.createElement("div");
-        element.classList.add("menu__item");
-        element.innerHTML = `
+        render() {
+            const { img, alt, title, descr, price, parent } = this;
+            const element = document.createElement("div");
+            element.classList.add("menu__item");
+            element.innerHTML = `
             <img src=${img} alt=${alt}>
             <h3 class="menu__item-subtitle">${title}</h3>
             <div class="menu__item-descr">${descr}</div>
@@ -172,40 +172,63 @@ window.addEventListener("DOMContentLoaded", function () {
             </div>
         `;
 
-        parent.append(element);
-    };
- }
- new MenuCard(
-    "img/tabs/vegy.jpg",
-    "vegy",
-    "Меню \"Фитнес\"",
-    "Меню \"Фитнес\" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов.Продукт активных и здоровых людей.Это абсолютно новый продукт с оптимальной ценой и высоким качеством!",
-    8.5,
-    ".menu .container"
-).render();
+            parent.append(element);
+        };
+    }
+    new MenuCard(
+        "img/tabs/vegy.jpg",
+        "vegy",
+        "Меню \"Фитнес\"",
+        "Меню \"Фитнес\" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов.Продукт активных и здоровых людей.Это абсолютно новый продукт с оптимальной ценой и высоким качеством!",
+        8.5,
+        ".menu .container"
+    ).render();
 
-new MenuCard(
-    "img/tabs/elite.jpg",
-    "elite",
-    "Меню \"Премиум\"",
-    "В меню \"Премиум\" мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд.Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
-    20.4,
-    ".menu .container"
-).render();
+    new MenuCard(
+        "img/tabs/elite.jpg",
+        "elite",
+        "Меню \"Премиум\"",
+        "В меню \"Премиум\" мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд.Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!",
+        20.4,
+        ".menu .container"
+    ).render();
 
-new MenuCard(
-    "img/tabs/post.jpg",
-    "post",
-    "Меню \"Постное\"",
-    "В меню \"Постное\" - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.",
-    20.4,
-    ".menu .container"
-).render();
+    new MenuCard(
+        "img/tabs/post.jpg",
+        "post",
+        "Меню \"Постное\"",
+        "В меню \"Постное\" - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.",
+        20.4,
+        ".menu .container"
+    ).render();
 
     // used Class for menu-item cards end
     // we create post request for forms start
     const forms = document.querySelectorAll("form");
-    console.log(forms);
+    
+    forms.forEach(form => postData(form));
+
+    function postData(form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault;
+            const request = new XMLHttpRequest();
+            request.open("POST", "server.php");
+            const formData = new FormData(form);
+            request.send(formData);
+            request.addEventListener("load", () => {
+                if (request.status === 200) {
+                    console.log(request.response)
+                }
+                else {
+                    console.error("Something went wrong with this form, SORRY")
+                };
+
+            });
+
+
+        });
+
+    };
     // we create post request for forms end
 });
 

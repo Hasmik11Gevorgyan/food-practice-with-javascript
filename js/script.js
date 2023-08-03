@@ -1,5 +1,7 @@
 "use - strict"
 
+const { log, error } = require("console");
+
 window.addEventListener("DOMContentLoaded", function () {
     // tab logic start
     const tabsHeaders = document.querySelectorAll(".tabheader__item");
@@ -289,32 +291,27 @@ window.addEventListener("DOMContentLoaded", function () {
                 form.reset()
             }
 
-            const request = new XMLHttpRequest();
-
-
-            request.open("POST", "server.php");
-
-            request.setRequestHeader("Content-type", "application/json");
-           const formData = new FormData(form);
+           
+            const formData = new FormData(form);
             const data = {};
             formData.forEach((value, key) => data[key] = value);
-            
 
-            request.send(JSON.stringify(data));
-            request.addEventListener("load", () => {
-                if (request.status === 200) {
-                    console.log(request.response)
-                    messagesModal(success);
-                    loader.remove();
-                    form.reset();
-                }
-                else {
-                    console.error("Something went wrong with this form, SORRY")
-                    messagesModal(failure);
-                    loader.remove();
-                    form.reset();
-                };
-            });
+            fetch("server.php",{
+                method:"POST",
+                headers:{"Content-type": "application/json"},
+                body:JSON.stringify(data),  
+            })
+            .then(data => data.text())
+            .then(data => {
+                console.log(data)
+                 messagesModal(success)
+            })
+            .catch( messagesModal(failure)+ ": " + err)
+            .finally( ()=> {
+                loader.remove()
+                    form.reset()
+        })
+
         });
     };
     function messagesModal(message) {

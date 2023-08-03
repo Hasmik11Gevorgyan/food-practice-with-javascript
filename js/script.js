@@ -1,7 +1,5 @@
 "use - strict"
 
-const { log, error } = require("console");
-
 window.addEventListener("DOMContentLoaded", function () {
     // tab logic start
     const tabsHeaders = document.querySelectorAll(".tabheader__item");
